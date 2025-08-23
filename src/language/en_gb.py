@@ -1,0 +1,194 @@
+THREE_CHAR_TOKENS = {"tʃ", "dʒ", "ŋ"}  # expand if needed
+
+TWO_CHAR_TOKENS = {
+    "ʃ",
+    "ʒ",
+    "ɪ",
+    "æ",
+    "ʌ",
+    "ɒ",
+    "ʊ",
+    "ə",
+    "iː",
+    "uː",
+    "ɜː",
+    "ɔː",
+    "ɑː",
+    "eɪ",
+    "aɪ",
+    "ɔɪ",
+    "aʊ",
+    "əʊ",
+    "eə",
+    "ɪə",
+    "ʊə",
+}
+
+VOWELS_SET = {
+    "ɪ",
+    "e",
+    "æ",
+    "ʌ",
+    "ɒ",
+    "ʊ",
+    "ə",
+    "iː",
+    "uː",
+    "ɜː",
+    "ɔː",
+    "ɑː",
+    "eɪ",
+    "aɪ",
+    "ɔɪ",
+    "aʊ",
+    "əʊ",
+    "eə",
+    "ɪə",
+    "ʊə",
+}
+
+CODA_ENDINGS = [
+    "mps",
+    "nps",
+    "mpz",
+    "npz",
+    "ŋ",
+    "ŋs",
+    "ŋgs",
+    "ŋz",
+    "ŋgz",
+]
+
+PHONEME_FEATURES = {
+    # -- Consonants (abbreviated; add more as needed) --
+    "p": {"voiced": False, "labial": True, "manner": "plosive"},
+    "b": {"voiced": True, "labial": True, "manner": "plosive"},
+    "f": {"voiced": False, "labial": True, "dental": True, "manner": "fricative"},
+    "v": {"voiced": True, "labial": True, "dental": True, "manner": "fricative"},
+    "t": {"voiced": False, "place": "alveolar", "manner": "plosive"},
+    "θ": {"voiced": False, "place": "alveolar", "dental": True, "manner": "fricative"},
+    "ð": {"voiced": True, "place": "alveolar", "dental": True, "manner": "fricative"},
+    "d": {"voiced": True, "place": "alveolar", "manner": "plosive"},
+    "k": {"voiced": False, "place": "velar", "manner": "plosive"},
+    "g": {"voiced": True, "place": "velar", "manner": "plosive"},
+    "s": {"voiced": False, "place": "alveolar", "manner": "fricative"},
+    "z": {"voiced": True, "place": "alveolar", "manner": "fricative"},
+    "ʃ": {"voiced": False, "place": "post-alveolar", "manner": "fricative"},
+    "ʒ": {"voiced": True, "place": "post-alveolar", "manner": "fricative"},
+    "m": {"voiced": True, "labial": True, "manner": "nasal"},
+    "n": {"voiced": True, "place": "alveolar", "manner": "nasal"},
+    "ŋ": {"voiced": True, "place": "velar", "manner": "nasal"},
+    "l": {"voiced": True, "place": "alveolar", "manner": "lateral_approximant"},
+    "ɫ": {
+        "voiced": True,
+        "place": "alveolar",
+        "manner": "lateral_approximant",
+    },  # No distinction between 'l' and 'dark l'
+    "r": {"voiced": True, "place": "post-alveolar", "manner": "approximant"},
+    "w": {"voiced": True, "labial": True, "place": "velar", "manner": "approximant"},
+    "j": {"voiced": True, "place": "palatal", "manner": "approximant"},
+    "tʃ": {"voiced": False, "place": "post-alveolar", "manner": "affricate"},
+    "dʒ": {"voiced": True, "place": "post-alveolar", "manner": "affricate"},
+    # -- Vowels --
+    "ɪ": {"high": True, "front": True, "round": False, "tense": False, "long": False},
+    "e": {"mid": True, "front": True, "round": False, "tense": False, "long": False},
+    "æ": {"low": True, "front": True, "round": False, "tense": False, "long": False},
+    "ʌ": {"mid": True, "back": True, "round": False, "tense": False, "long": False},
+    "ɒ": {"low": True, "back": True, "round": True, "tense": False, "long": False},
+    "ɐ": {"low": True, "central": True, "round": False, "tense": False, "long": False},
+    "ɐ": {"low": True, "central": True, "round": False, "tense": False, "long": False},
+    "ʊ": {"high": True, "back": True, "round": True, "tense": False, "long": False},
+    "ə": {"mid": True, "central": True, "round": False, "tense": False, "long": False},
+    "iː": {"high": True, "front": True, "round": False, "tense": True, "long": True},
+    "i": {"high": True, "front": True, "round": False, "tense": True, "long": True},
+    "uː": {"high": True, "back": True, "round": True, "tense": True, "long": True},
+    "ɜː": {"mid": True, "central": True, "round": False, "tense": False, "long": True},
+    "ɔː": {"mid": True, "back": True, "round": True, "tense": False, "long": True},
+    "ɑː": {"low": True, "back": True, "round": False, "tense": False, "long": True},
+    # -- Diphthongs --
+    "eɪ": {
+        "mid": True,
+        "high": True,
+        "front": True,
+        "long": True,
+    },
+    "aɪ": {
+        "high": True,
+        "low": True,
+        "back": True,
+        "long": True,
+    },
+    "ɔɪ": {
+        "high": True,
+        "mid": True,
+        "back": True,
+        "long": True,
+    },
+    "aʊ": {
+        "high": True,
+        "low": True,
+        "back": True,
+        "long": True,
+        "round": True,
+    },
+    "əʊ": {
+        "high": True,
+        "mid": True,
+        "back": True,
+        "long": True,
+        "round": True,
+    },
+    "eə": {
+        "mid": True,
+        "front": True,
+        "long": True,
+    },
+    "ɪə": {
+        "high": True,
+        "front": True,
+        "long": True,
+    },
+    "ʊə": {
+        "high": True,
+        "back": True,
+        "long": True,
+        "round": True,
+    },
+}
+
+
+# Which bit features we track (same as your prior code)
+
+CONSONANT_COLUMNS = [
+    "voiced",
+    # One-hot: place (e.g. bilabial can be on or off)
+    "labial",
+    "dental",
+    "alveolar",
+    "post-alveolar",
+    "palatal",
+    "velar",
+    "glottal",
+    # One-hot: manner
+    "plosive",
+    "fricative",
+    "affricate",
+    "nasal",
+    "approximant",
+    "lateral_approximant",
+]
+
+VOWEL_COLUMNS = [
+    "tense",
+    "long",
+    "diphthong",
+    # One-hot: vowel height
+    "high",
+    "mid",
+    "low",
+    # One-hot: backness
+    "front",
+    "central",
+    "back",
+    "round",
+]
