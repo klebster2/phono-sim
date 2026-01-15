@@ -2,7 +2,7 @@
 import abc
 import logging
 from functools import lru_cache
-from typing import Dict, List, Set
+from typing import Dict, List, Set, Tuple
 
 from bitarray import bitarray
 
@@ -53,7 +53,7 @@ class BitArrayGenerator(abc.ABC):  # pylint: disable=too-many-instance-attribute
 
     def get_phoneme_features(  # pylint: disable=missing-function-docstring
         self, phoneme: str
-    ) -> tuple[tuple[str | bool, ...], ...]:
+    ) -> Tuple[Tuple[str | bool, ...], ...]:
         if phoneme in self._phoneme_features:
             return tuple(
                 tuple([k, v]) for k, v in self._phoneme_features[phoneme].items()
