@@ -26,6 +26,3 @@ def test_parsing():
     for idx, syl in enumerate(sylls, start=1):
         print(f"--- Syllable {idx} ---")
         print_syl_verbose(syl, cons_columns, VOWEL_COLUMNS, False)
-        import pdb
-
-        pdb.set_trace()
