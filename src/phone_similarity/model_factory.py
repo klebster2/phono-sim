@@ -1,17 +1,10 @@
 # pip install transformers bitarray langcodes numpy
 import abc
-import csv
-import json
 import logging
-import os
-from collections import defaultdict
-from functools import cache, lru_cache
-from itertools import combinations_with_replacement
-from typing import Any, Dict, List, Set, Tuple
+from functools import lru_cache
+from typing import Dict, List, Set
 
 from bitarray import bitarray
-from transformers import AutoTokenizer, T5ForConditionalGeneration
-from typing_extensions import TypedDict
 
 from phone_similarity.language.en_gb import CONSONANT_COLUMNS, VOWEL_COLUMNS
 

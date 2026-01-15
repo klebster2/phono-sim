@@ -1,4 +1,3 @@
-import numpy as np
 from bitarray import bitarray
 
 from phone_similarity.language.en_gb import PHONEME_FEATURES, VOWELS_SET
