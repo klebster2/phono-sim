@@ -96,7 +96,6 @@ PHONEME_FEATURES = {
     "ʌ": {"mid": True, "back": True, "round": False, "tense": False, "long": False},
     "ɒ": {"low": True, "back": True, "round": True, "tense": False, "long": False},
     "ɐ": {"low": True, "central": True, "round": False, "tense": False, "long": False},
-    "ɐ": {"low": True, "central": True, "round": False, "tense": False, "long": False},
     "ʊ": {"high": True, "back": True, "round": True, "tense": False, "long": False},
     "ə": {"mid": True, "central": True, "round": False, "tense": False, "long": False},
     "iː": {"high": True, "front": True, "round": False, "tense": True, "long": True},
