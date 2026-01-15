@@ -1,6 +1,6 @@
 # phono-sim
 
-A library dedicated towards providing phonological similarity metrics.
+A library dedicated towards phonological similarity metrics.
 
 # Table of contents
 
