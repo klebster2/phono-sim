@@ -53,7 +53,7 @@ class BitArrayGenerator(abc.ABC):  # pylint: disable=too-many-instance-attribute
 
     def get_phoneme_features(  # pylint: disable=missing-function-docstring
         self, phoneme: str
-    ) -> Tuple[Tuple[str | bool, ...], ...]:
+    ) -> Tuple[Tuple[str, bool, ...], ...]:
         if phoneme in self._phoneme_features:
             return tuple(
                 tuple([k, v]) for k, v in self._phoneme_features[phoneme].items()
