@@ -64,7 +64,6 @@ class BitArrayGenerator(BaseBitArrayGenerator):
         """
         arr = bitarray()
         for idx, _arr_parts in enumerate(self.ipa_to_syllable(ipa)[::-1], start=1):
-
             for key in sorted(_arr_parts.keys(), reverse=True):
                 arr += _arr_parts[key]
             if idx == max_syllables:

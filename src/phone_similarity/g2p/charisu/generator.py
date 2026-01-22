@@ -21,9 +21,9 @@ class CharisuGraphemeToPhonemeGenerator:
     """
 
     def __init__(self, language: str):
-        assert (
-            language in LANGUAGE_CODES_CHARSIU
-        ), "Language not in Charsiu language codes"
+        assert language in LANGUAGE_CODES_CHARSIU, (
+            "Language not in Charsiu language codes"
+        )
 
         self._language = language
         self._pdict: Dict[str, str] = load_dictionary.load_dictionary_tsv(language)

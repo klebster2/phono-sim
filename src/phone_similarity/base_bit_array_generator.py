@@ -180,7 +180,7 @@ class BaseBitArrayGenerator(abc.ABC):  # pylint: disable=too-many-instance-attri
                     (
                         f"IPA string contains phonemes outside usual range {ipa_str} "
                         f"(max phoneme length = {self._max_phoneme_size}) "
-                        f"Searched: {ipa_str[start:self._max_phoneme_size]}"
+                        f"Searched: {ipa_str[start : self._max_phoneme_size]}"
                     )
                 )
                 start += 1

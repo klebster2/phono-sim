@@ -9,7 +9,7 @@ description = "A library dedicated to providing phonological distance and simila
 authors = [{name = "Kleber Noel"}]
 readme = "README.md"
 requires-python = ">=3.7,<4"
-keywords = ["phone", "phonological", "phonetic", "similarity", "ipa", "phonetics", "distance", "bitarray"]
+keywords = ["phone", "phonological", "phonetic", "similarity", "ipa", "phonetics", "distance", "bitarray", "jiwer"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
@@ -27,6 +27,7 @@ dependencies = [
     "langcodes[data]",
     "numpy>=1.24",
     "torch>=2,<3",
+    "jiwer>4"
 ]
 
 [tool.setuptools.packages.find]
