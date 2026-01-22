@@ -1,37 +1,16 @@
-THREE_CHAR_TOKENS = {"tʃ", "dʒ", "ŋ"}  # expand if needed
-
-TWO_CHAR_TOKENS = {
-    "ʃ",
-    "ʒ",
-    "ɪ",
-    "æ",
-    "ʌ",
-    "ɒ",
-    "ʊ",
-    "ə",
-    "iː",
-    "uː",
-    "ɜː",
-    "ɔː",
-    "ɑː",
-    "eɪ",
-    "aɪ",
-    "ɔɪ",
-    "aʊ",
-    "əʊ",
-    "eə",
-    "ɪə",
-    "ʊə",
-}
-
 VOWELS_SET = {
-    "ɪ",
     "e",
+    "u",
     "æ",
-    "ʌ",
+    "ɑ",
     "ɒ",
-    "ʊ",
+    "ɔ",
     "ə",
+    "ɜ",
+    "ɪ",
+    "i",
+    "ʊ",
+    "ʌ",
     "iː",
     "uː",
     "ɜː",
@@ -98,8 +77,12 @@ PHONEME_FEATURES = {
     "ɐ": {"low": True, "central": True, "round": False, "tense": False, "long": False},
     "ʊ": {"high": True, "back": True, "round": True, "tense": False, "long": False},
     "ə": {"mid": True, "central": True, "round": False, "tense": False, "long": False},
-    "iː": {"high": True, "front": True, "round": False, "tense": True, "long": True},
     "i": {"high": True, "front": True, "round": False, "tense": True, "long": True},
+    "u": {"high": True, "back": True, "round": True, "tense": True, "long": False},
+    "ɜ": {"mid": True, "central": True, "round": False, "tense": False, "long": False},
+    "ɔ": {"mid": True, "back": True, "round": True, "tense": False, "long": False},
+    # "ɑ": {"low": True, "back": True, "round": False, "tense": False, "long": False},
+    "iː": {"high": True, "front": True, "round": False, "tense": True, "long": True},
     "uː": {"high": True, "back": True, "round": True, "tense": True, "long": True},
     "ɜː": {"mid": True, "central": True, "round": False, "tense": False, "long": True},
     "ɔː": {"mid": True, "back": True, "round": True, "tense": False, "long": True},
@@ -156,38 +139,42 @@ PHONEME_FEATURES = {
 }
 
 
-# Which bit features we track (same as your prior code)
+CONSONANT_COLUMNS = set(
+    [
+        "voiced",
+        # One-hot: place (e.g. bilabial can be on or off)
+        "labial",
+        "dental",
+        "alveolar",
+        "post-alveolar",
+        "palatal",
+        "velar",
+        "glottal",
+        # One-hot: manner
+        "plosive",
+        "fricative",
+        "affricate",
+        "nasal",
+        "approximant",
+        "lateral_approximant",
+    ]
+)
 
-CONSONANT_COLUMNS = [
-    "voiced",
-    # One-hot: place (e.g. bilabial can be on or off)
-    "labial",
-    "dental",
-    "alveolar",
-    "post-alveolar",
-    "palatal",
-    "velar",
-    "glottal",
-    # One-hot: manner
-    "plosive",
-    "fricative",
-    "affricate",
-    "nasal",
-    "approximant",
-    "lateral_approximant",
-]
+VOWEL_COLUMNS = set(
+    [
+        "tense",
+        "long",
+        "diphthong",
+        # One-hot: vowel height
+        "high",
+        "mid",
+        "low",
+        # One-hot: backness
+        "front",
+        "central",
+        "back",
+        "round",
+    ]
+)
 
-VOWEL_COLUMNS = [
-    "tense",
-    "long",
-    "diphthong",
-    # One-hot: vowel height
-    "high",
-    "mid",
-    "low",
-    # One-hot: backness
-    "front",
-    "central",
-    "back",
-    "round",
-]
+FEATURES = {"consonant": CONSONANT_COLUMNS, "vowel": VOWEL_COLUMNS}

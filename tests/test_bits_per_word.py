@@ -1,7 +1,7 @@
 from bitarray import bitarray
 
-from phone_similarity.language.en_gb import PHONEME_FEATURES, VOWELS_SET
-from phone_similarity.model_factory import BitArrayGenerator
+from phone_similarity.bit_array_generator import BitArrayGenerator
+from phone_similarity.language.en_gb import FEATURES, PHONEME_FEATURES, VOWELS_SET
 
 MAX_SYLLABLES = 6
 
@@ -13,7 +13,8 @@ def test_bits_per_word():  # pylint: disable=missing-function-docstring
     bitarray_generator = BitArrayGenerator(
         vowels=VOWELS_SET,
         consonants=consonants_set,
-        phoneme_features=PHONEME_FEATURES,
+        features_per_phoneme=PHONEME_FEATURES,
+        features=FEATURES,
         max_syllables_per_text=MAX_SYLLABLES,
     )
 
@@ -25,9 +26,9 @@ def test_bits_per_word():  # pylint: disable=missing-function-docstring
         ("strings", "strɪŋz"),  # 1 syllable
         ("insight", "ɪnsaɪt"),  # 2 vowels => 2 syllables
     ]
-    assert bitarray_generator._max_syllables_per_text_chunk == MAX_SYLLABLES, (
-        "Maximum bits per Syllable"
-    )
+    assert (
+        bitarray_generator._max_syllables_per_text_chunk == MAX_SYLLABLES
+    ), "Maximum bits per Syllable"
 
     bitarrays = {}
     for w, p in examples:
@@ -36,61 +37,41 @@ def test_bits_per_word():  # pylint: disable=missing-function-docstring
     assert bitarrays == {
         "cat": [
             {
-                "coda": bitarray("00010010100000"),
-                "nucleus": bitarray("0000011010"),
-                "onset": bitarray("00000010100000"),
-            },
+                "onset": bitarray("00000000001010"),
+                "nucleus": bitarray("0001001000"),
+                "coda": bitarray("01000000001000"),
+            }
         ],
         "strong": [
             {
-                "coda": bitarray("10011010110110"),
-                "nucleus": bitarray("1001110011"),
-                "onset": bitarray("10011000110010"),
-            },
+                "onset": bitarray("01101000001101"),
+                "nucleus": bitarray("1000001010"),
+                "coda": bitarray("00000000100011"),
+            }
         ],
         "banana": [
-            {
-                "nucleus": bitarray("1100100110"),
-                "onset": bitarray("11000000100000"),
-            },
-            {
-                "nucleus": bitarray("1101011010"),
-                "onset": bitarray("11010000100100"),
-            },
-            {
-                "nucleus": bitarray("1101100110"),
-                "onset": bitarray("11010000100100"),
-            },
+            {"onset": bitarray("00000010001001"), "nucleus": bitarray("0100000100")},
+            {"onset": bitarray("01000000100001"), "nucleus": bitarray("0001001000")},
+            {"onset": bitarray("01000000100001"), "nucleus": bitarray("0100000100")},
         ],
         "computer": [
-            {
-                "nucleus": bitarray("0000101110"),
-                "onset": bitarray("00000010100000"),
-            },
-            {
-                "nucleus": bitarray("1101011011"),
-                "onset": bitarray("10000110100010"),
-            },
-            {
-                "nucleus": bitarray("1001111110"),
-                "onset": bitarray("10010110100010"),
-            },
+            {"onset": bitarray("00000000001010"), "nucleus": bitarray("0100000100")},
+            {"onset": bitarray("00100010111001"), "nucleus": bitarray("1000110011")},
+            {"onset": bitarray("01000000001000"), "nucleus": bitarray("0100000100")},
         ],
         "strings": [
             {
-                "coda": bitarray("10011000110010"),
-                "nucleus": bitarray("1001101011"),
-                "onset": bitarray("10011000110010"),
-            },
+                "onset": bitarray("01101000001101"),
+                "nucleus": bitarray("0001100000"),
+                "coda": bitarray("01001000100011"),
+            }
         ],
         "insight": [
+            {"nucleus": bitarray("0001100000")},
             {
-                "nucleus": bitarray("0001001000"),
-            },
-            {
-                "coda": bitarray("00010000110000"),
-                "nucleus": bitarray("0101010011"),
-                "onset": bitarray("00010000010000"),
+                "onset": bitarray("01001000100001"),
+                "nucleus": bitarray("1000111000"),
+                "coda": bitarray("01000000001000"),
             },
         ],
     }

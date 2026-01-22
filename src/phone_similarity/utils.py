@@ -16,7 +16,6 @@ def print_syl_verbose(
     syl, cons_columns, vowel_columns, print_zeros: bool = True
 ) -> None:
     print(" " * 10, "=== ONSET ===")
-
     for i in range(len(syl["onset"])):
         if print_zeros:
             print("            ", syl["onset"][i], cons_columns[i])
