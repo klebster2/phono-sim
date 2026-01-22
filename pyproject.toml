@@ -27,7 +27,7 @@ dependencies = [
     "langcodes[data]",
     "numpy>=1.24",
     "torch>=2,<3",
-    "jiwer>4"
+    "jiwer>=4"
 ]
 
 [tool.setuptools.packages.find]
