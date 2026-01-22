@@ -73,7 +73,7 @@ class BitArrayGenerator(BaseBitArrayGenerator):
         try:
             arr += bitarray([0] * (self.max_syllable_length * max_syllables - len(arr)))
         except Exception as e:
-            logging.error("Error when filling remainder of array %s", arr)
+            logging.error("Error filling remainder of array %s", arr)
             raise e
 
         return arr
