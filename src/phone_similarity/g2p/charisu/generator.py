@@ -59,8 +59,12 @@ class CharisuGraphemeToPhonemeGenerator:
         preds = self._model.generate(  # We do not find beam search helpful. Greedy decoding is enough.
             **out, logits_processor=LogitsProcessorList(), **generation_kwargs
         )
-        sequences_preds = preds["sequences"]  # type: ignore
-        sequences_probs = [torch.exp(sc) for sc in preds["sequences_scores"]]  # type: ignore
+        if not isinstance(preds, dict):
+            sequences_preds = preds
+            sequences_probs = [1]
+        else:
+            sequences_preds = preds["sequences"]  # type: ignore
+            sequences_probs = [torch.exp(sc) for sc in preds["sequences_scores"]]  # type: ignore
 
         assert isinstance(sequences_preds, torch.LongTensor)
 

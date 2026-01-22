@@ -144,7 +144,8 @@ class BaseBitArrayGenerator(abc.ABC):  # pylint: disable=too-many-instance-attri
                     return phone
         return None
 
-    def simple_ipa_string_tokenizer(self, ipa_str: str) -> List[str]:
+    @lru_cache
+    def ipa_tokenizer(self, ipa_str: str) -> List[str]:
         """Tokenizes an IPA string into a list of recognized phonemes.
 
         This method uses a basic parsing strategy that prioritizes longer phoneme
@@ -174,7 +175,6 @@ class BaseBitArrayGenerator(abc.ABC):  # pylint: disable=too-many-instance-attri
             phoneme = self.search_phonemes(
                 ipa_str[start : start + min(self._max_phoneme_size, len(ipa_str) - 1)]
             )
-            print(phoneme)
             if phoneme is None:
                 logging.warning(
                     (

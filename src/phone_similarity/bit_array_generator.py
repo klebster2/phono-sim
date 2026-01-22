@@ -110,7 +110,7 @@ class BitArrayGenerator(BaseBitArrayGenerator):
             and contains bitarray representations for its 'onset', 'nucleus', and 'coda'.
 
         """
-        tokens = self.simple_ipa_string_tokenizer(ipa_str)
+        tokens = self.ipa_tokenizer(ipa_str)
         n: int = len(tokens)
         i: int = 0
         results: List[dict] = []

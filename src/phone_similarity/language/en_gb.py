@@ -3,6 +3,7 @@ VOWELS_SET = {
     "u",
     "æ",
     "ɑ",
+    "ɑ",
     "ɒ",
     "ɔ",
     "ə",
@@ -81,7 +82,7 @@ PHONEME_FEATURES = {
     "u": {"high": True, "back": True, "round": True, "tense": True, "long": False},
     "ɜ": {"mid": True, "central": True, "round": False, "tense": False, "long": False},
     "ɔ": {"mid": True, "back": True, "round": True, "tense": False, "long": False},
-    # "ɑ": {"low": True, "back": True, "round": False, "tense": False, "long": False},
+    "ɑ": {"low": True, "back": True, "round": False, "tense": False, "long": False},
     "iː": {"high": True, "front": True, "round": False, "tense": True, "long": True},
     "uː": {"high": True, "back": True, "round": True, "tense": True, "long": True},
     "ɜː": {"mid": True, "central": True, "round": False, "tense": False, "long": True},
@@ -126,6 +127,11 @@ PHONEME_FEATURES = {
         "long": True,
     },
     "ɪə": {
+        "high": True,
+        "front": True,
+        "long": True,
+    },
+    "iə": {
         "high": True,
         "front": True,
         "long": True,
