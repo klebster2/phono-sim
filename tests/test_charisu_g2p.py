@@ -1,4 +1,3 @@
-import tqdm
 from bitarray import bitarray
 
 from phone_similarity.bit_array_generator import BitArrayGenerator
