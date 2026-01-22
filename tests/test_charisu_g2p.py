@@ -26,7 +26,7 @@ def test_charisu_g2p():
 
     _syllables = []
 
-    phones_for_words, sequence_probs = g2p.generate(
+    phones_for_words, _ = g2p.generate(
         words=tuple(words),
         num_beams=5,
         num_return_sequences=5,
@@ -37,7 +37,8 @@ def test_charisu_g2p():
         output_logits=True,
         return_dict_in_generate=True,
     )
-    for phones, prob in zip(phones_for_words[0], sequence_probs):
+    for phones in zip(phones_for_words[0]):
+        assert isinstance(phones, str)
         _syllables.append(
             bitarray_generator.ipa_to_syllable(phones.replace("ˌ", "").replace("ˈ", ""))
         )
