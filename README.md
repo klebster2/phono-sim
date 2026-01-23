@@ -1,6 +1,6 @@
-# phono-sim
+# phone-bitarray
 
-A library dedicated towards phonological similarity metrics.
+A library for efficient phonological representations of language.
 
 # Table of contents
 
