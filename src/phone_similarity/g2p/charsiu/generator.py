@@ -5,10 +5,10 @@ import torch
 from transformers import AutoTokenizer, T5ForConditionalGeneration
 from transformers.generation.utils import LogitsProcessorList
 
-from phone_similarity.g2p.charisu import LANGUAGE_CODES_CHARSIU, load_dictionary
+from phone_similarity.g2p.charsiu import LANGUAGE_CODES_CHARSIU, load_dictionary
 
 
-class CharisuGraphemeToPhonemeGenerator:
+class CharsiuGraphemeToPhonemeGenerator:
     """
     CharsiuGraphemeToPhonemeGenerator
 
@@ -21,9 +21,9 @@ class CharisuGraphemeToPhonemeGenerator:
     """
 
     def __init__(self, language: str):
-        assert language in LANGUAGE_CODES_CHARSIU, (
-            "Language not in Charsiu language codes"
-        )
+        assert (
+            language in LANGUAGE_CODES_CHARSIU
+        ), "Language not in Charsiu language codes"
 
         self._language = language
         self._pdict: Dict[str, str] = load_dictionary.load_dictionary_tsv(language)

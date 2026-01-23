@@ -4,11 +4,12 @@ from typing import Dict
 
 import requests
 
-from phone_similarity.g2p.charisu import LANGUAGE_CODES_CHARSIU
+from phone_similarity.g2p.charsiu import LANGUAGE_CODES_CHARSIU
 
 
 def load_dictionary_tsv(lang_code: str, folder="dicts") -> Dict[str, str]:
-    """Fetch or load a TSV dictionary.
+    """
+    Fetch or load a Charsiu TSV dictionary.
 
     This function fetches a TSV dictionary from a URL or loads it from a local
     file. The dictionary is expected to have two columns: word and phones.
