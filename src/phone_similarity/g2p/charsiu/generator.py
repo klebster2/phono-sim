@@ -100,7 +100,7 @@ class CharsiuGraphemeToPhonemeGenerator:
     @lru_cache(maxsize=2048)
     def generate(
         self, words: Tuple[str], **generation_kwargs
-    ) -> Union[List[str], List[Tuple[str]]]:
+    ) -> Union[List[str], List[List[str]]]:
         """Generate phonemes for a list of words.
 
         This method uses the Charsiu model to generate phonemic representations
@@ -120,7 +120,7 @@ class CharsiuGraphemeToPhonemeGenerator:
 
         Returns
         -------
-        Union[List[str], List[Tuple[str]]]
+        List[Union[str, List[str]]]
             A list of phonemic representations for each word. If
             `num_return_sequences` is greater than 1, a list of tuples
             is returned, where each tuple contains multiple phonemic
@@ -183,10 +183,9 @@ class CharsiuGraphemeToPhonemeGenerator:
     def get_phones_for_word(
         self,
         word: str,
-        language: str,
-        limit_resource: Optional[GraphemeToPhonemeResourceType] = None,
-        **generation_kwargs: Optional[Dict[str, str]],
-    ) -> Union[str, Tuple[str]]:
+        limit_resource: Optional[GraphemeToPhonemeResourceType],
+        **generation_kwargs,
+    ) -> Tuple[Union[str, Tuple[Tuple[str]]]]:
         """Get phones for a single word.
 
         This method first attempts to look up the word in the phone
@@ -197,12 +196,10 @@ class CharsiuGraphemeToPhonemeGenerator:
         ----------
         word : str
             The word to be converted to phones.
-        language : str
-            The language of the word.
         limit_resource : Optional[GraphemeToPhonemeResourceType]
             limit the resource to use only either the G2P 'Generator', or the 'Dict'.
             If left as None, both will be used.
-        **generation_kwargs : Optional[Dict[str, str]]
+        **generation_kwargs :
             Additional keyword arguments to be passed to the underlying
             model's `generate` method.
 
@@ -214,31 +211,18 @@ class CharsiuGraphemeToPhonemeGenerator:
             single string of phones is returned.
         """
 
-        if limit_resource == GraphemeToPhonemeResourceType.DICT:
+        if limit_resource and limit_resource == GraphemeToPhonemeResourceType.DICT:
             phoneme_strings: List[str] = self.get_phones_from_dict(word).split()
             return tuple(phoneme_strings)  # type: ignore
 
-        elif limit_resource == GraphemeToPhonemeResourceType.G2P_GENERATOR:
-            phonemes = self.generate(tuple([word]), **generation_kwargs)
-            return tuple(phonemes) if isinstance(phonemes, list) else phonemes
+        elif (
+            limit_resource
+            and limit_resource == GraphemeToPhonemeResourceType.G2P_GENERATOR
+        ):
+            assert isinstance(generation_kwargs, dict)
+            phonemes = self.generate(tuple([word]), **generation_kwargs)  # type: ignore
+            return tuple(phonemes) if isinstance(phonemes, list) else phonemes  # type: ignore
 
-        tokens = self._tokenizer(
-            [f"<{language}>: " + word],
-            padding=True,
-            add_special_tokens=False,
-            return_tensors="pt",
-        )
-        assert generation_kwargs is not None
-        phone_indexes = self._model.generate(*tokens, **generation_kwargs)
-        assert isinstance(phone_indexes, torch.LongTensor)
-
-        phonemes: List[str] = self._tokenizer.batch_decode(
-            phone_indexes.tolist(), skip_special_tokens=True
-        )
-        phonemes.append(self.get_phones_from_dict(word).split())
-        import pdb
-
-        pdb.set_trace()
+        phonemes = self.generate(tuple([word]), **generation_kwargs)
+        phonemes.append(self.get_phones_from_dict(word).split())  # type: ignore
         return tuple(phonemes) if isinstance(phonemes, list) else phonemes
-
-        return tuple(phonemes.split(","))  # type: ignore

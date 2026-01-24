@@ -98,7 +98,7 @@ def test_charsiu_g2p_one_hypothesis():
     ]
 
 
-def test_charsiu_g2p_similarity_puns():
+def test_charsiu_g2p_similarity():
     language = f"{ISO_689_3_LANGUAGE}-{ISO_3166_1_ALPHA_2}"
     g2p = CharsiuGraphemeToPhonemeGenerator(language)
 
