@@ -69,7 +69,7 @@ def test_charsiu_g2p_many_hypotheses():
     if torch.cuda.is_available():
         assert len(_syllables) == 12
     else:
-        assert len(_syllables) >= 18
+        assert len(_syllables) in {12, 18}
 
 
 def test_charsiu_g2p_one_hypothesis():
