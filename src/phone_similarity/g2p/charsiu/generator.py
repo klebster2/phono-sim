@@ -7,8 +7,6 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple, Union
 
-from typing import Dict, List, Optional, Set, Tuple, Union
-
 
 import torch
 from transformers import AutoTokenizer, T5ForConditionalGeneration

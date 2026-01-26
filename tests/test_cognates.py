@@ -1,7 +1,7 @@
 import logging
 from collections import defaultdict
 from itertools import combinations
-from typing import Dict, List, Tuple
+from typing import Dict, List
 
 import numpy as np
 from bitarray import bitarray
@@ -135,7 +135,7 @@ def test_cognates():
                 )
                 continue
 
-    mean_results = {
-        k: np.mean([np.mean(v0) for v0 in v])
-        for k, v in langpair_to_cosine_similarity_scores.items()
-    }
+    # mean_results = {
+    #     k: np.mean([np.mean(v0) for v0 in v])
+    #     for k, v in langpair_to_cosine_similarity_scores.items()
+    # }

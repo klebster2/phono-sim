@@ -1,13 +1,13 @@
 import math
 from collections import Counter
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, Dict, List, Set, Tuple
+from typing import TYPE_CHECKING, Dict, List, Tuple
 
 if TYPE_CHECKING:
     from phone_similarity.bit_array_specification import BitArraySpecification
 
 
-from bitarray import bitarray, frozenbitarray
+from bitarray import frozenbitarray
 
 
 @dataclass
