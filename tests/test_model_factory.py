@@ -2,7 +2,7 @@ import unittest
 
 from bitarray import bitarray
 
-from phone_similarity.bit_array_generator import BitArrayGenerator
+from phone_similarity.bit_array_specification import BitArraySpecification
 from phone_similarity.language.en_gb import FEATURES
 from phone_similarity.model_factory import ModelFactory
 
@@ -21,11 +21,11 @@ class TestModelFactory(unittest.TestCase):
             )
 
     def test_custom_registration(self):
-        class FrenchBitArrayGenerator(BitArrayGenerator):
+        class FrenchBitArraySpecification(BitArraySpecification):
             def generate(self, text):
                 return bitarray()
 
-        model_factory.register_model("fr", FrenchBitArrayGenerator)
+        model_factory.register_model("fr", FrenchBitArraySpecification)
         model = model_factory.get_model(
             "fr",
             vowels=set(),
@@ -33,4 +33,4 @@ class TestModelFactory(unittest.TestCase):
             features_per_phoneme={"a": {}},
             features=FEATURES,
         )
-        self.assertIsInstance(model, FrenchBitArrayGenerator)
+        self.assertIsInstance(model, FrenchBitArraySpecification)

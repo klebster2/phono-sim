@@ -1,6 +1,6 @@
 from typing import Type
 
-from phone_similarity.base_bit_array_generator import BaseBitArrayGenerator
+from phone_similarity.base_bit_array_specification import BaseBitArraySpecification
 
 
 class ModelFactory:
@@ -11,13 +11,15 @@ class ModelFactory:
     def __init__(self):
         self._models = {}
 
-    def register_model(self, language: str, model_class: Type[BaseBitArrayGenerator]):
+    def register_model(
+        self, language: str, model_class: Type[BaseBitArraySpecification]
+    ):
         """
         Register a model class for a given language.
         """
         self._models[language] = model_class
 
-    def get_model(self, language: str, *args, **kwargs) -> BaseBitArrayGenerator:
+    def get_model(self, language: str, *args, **kwargs) -> BaseBitArraySpecification:
         """
         Get an instance of a model for a given language.
         """

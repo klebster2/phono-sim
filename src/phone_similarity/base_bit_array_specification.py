@@ -6,7 +6,9 @@ from typing import Dict, List, Optional, Set, Tuple
 from bitarray import bitarray
 
 
-class BaseBitArrayGenerator(abc.ABC):  # pylint: disable=too-many-instance-attributes
+class BaseBitArraySpecification(
+    abc.ABC
+):  # pylint: disable=too-many-instance-attributes
     """
     Base Abstract class that maps from character based phonological units to bitarray representation
     """
@@ -60,6 +62,7 @@ class BaseBitArrayGenerator(abc.ABC):  # pylint: disable=too-many-instance-attri
             _features.update({feat: tuple(sorted(feat_set))})
         return _features
 
+    @lru_cache(maxsize=128)
     def get_phoneme_features(self, phoneme: str) -> Tuple[Tuple[str, bool]]:
         """Retrieves the feature set for a given phoneme.
 
@@ -85,7 +88,7 @@ class BaseBitArrayGenerator(abc.ABC):  # pylint: disable=too-many-instance-attri
             )
         raise ValueError(f"Unknown Phoneme input '{phoneme}'")
 
-    @lru_cache
+    @lru_cache(128)
     def features_to_bitarray(
         self, feature_dict: Dict[str, bool], columns: Tuple[str]
     ) -> "bitarray":
@@ -144,7 +147,6 @@ class BaseBitArrayGenerator(abc.ABC):  # pylint: disable=too-many-instance-attri
                     return phone
         return None
 
-    @lru_cache
     def ipa_tokenizer(self, ipa_str: str) -> List[str]:
         """Tokenizes an IPA string into a list of recognized phonemes.
 

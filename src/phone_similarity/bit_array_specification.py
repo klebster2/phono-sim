@@ -1,12 +1,13 @@
 import logging
+from functools import lru_cache
 from typing import Dict, List, Set, Tuple
 
 from bitarray import bitarray
 
-from phone_similarity.base_bit_array_generator import BaseBitArrayGenerator
+from phone_similarity.base_bit_array_specification import BaseBitArraySpecification
 
 
-class BitArrayGenerator(BaseBitArrayGenerator):
+class BitArraySpecification(BaseBitArraySpecification):
     """
     BitArrayGenerator
     """
@@ -127,11 +128,12 @@ class BitArrayGenerator(BaseBitArrayGenerator):
             # 2. Check if current token is final. If so, merge onset with previous coda.
             # Else if prev, merge prev coda with current onset and delete prev coda
             if i == n:
-                results[-1] = {
-                    "onset": results[-1]["onset"],
-                    "nucleus": results[-1]["nucleus"],
-                    "coda": results[-1]["coda"] | onset,
-                }
+                if results:
+                    results[-1] = {
+                        "onset": results[-1]["onset"],
+                        "nucleus": results[-1]["nucleus"],
+                        "coda": results[-1]["coda"] | onset,
+                    }
                 break
 
             if len(results) > 0 and results[-1].get("coda") is not None:
@@ -251,6 +253,7 @@ class BitArrayGenerator(BaseBitArrayGenerator):
             columns=self._features[feature_type],
         )
 
+    @lru_cache
     def empty_vector(self, feature_type: str) -> "bitarray":
         """Creates a zeroed bitarray for a given feature type.
 
@@ -270,11 +273,13 @@ class BitArrayGenerator(BaseBitArrayGenerator):
             A bitarray of the correct length, initialized with all zeros.
 
         """
-        return bitarray([0] * len(self._features[feature_type]))
+        return bitarray(len(self._features[feature_type]))
 
     def fold(self, arr: "bitarray"):
-        """Fold bitarray syllables into the space of a single syllable"""
-        new_arr = bitarray([0] * self.max_syllable_length)
+        """
+        Fold bitarray syllables into the 'rich-format' space of a single syllable
+        """
+        new_arr = bitarray(self.max_syllable_length)
         for syllable_bit_idx in range(
             0,
             self._max_syllables_per_text_chunk * self.max_syllable_length,

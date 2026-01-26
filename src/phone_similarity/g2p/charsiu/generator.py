@@ -1,7 +1,14 @@
 import logging
+import os
+import pickle
+import sys
 from enum import Enum
 from functools import lru_cache
+from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple, Union
+
+from typing import Dict, List, Optional, Set, Tuple, Union
+
 
 import torch
 from transformers import AutoTokenizer, T5ForConditionalGeneration
@@ -52,21 +59,35 @@ class CharsiuGraphemeToPhonemeGenerator:
     DEFAULT_TOKENIZER_MODEL_NAME: str = "google/byt5-small"
     DEFAULT_T5_G2P_MODEL_NAME: str = "charsiu/g2p_multilingual_byT5_tiny_16_layers_100"
 
-    def __init__(self, language: str):
+    def __init__(self, language: str, use_cache: bool = True):
         """Initializes the CharsiuGraphemeToPhonemeGenerator.
-
         Parameters
         ----------
         language : str
             The language for which to generate phonemes. Must be a valid
             language code from `phone_similarity.g2p.charsiu.LANGUAGE_CODES_CHARSIU`.
+        use_cache: bool
+            Whether to use a cache for the phoneme dictionary.
         """
         assert (
             language in LANGUAGE_CODES_CHARSIU
         ), "Language not in Charsiu language codes"
 
         self._language = language
-        self._pdict: Dict[str, str] = load_dictionary.load_dictionary_tsv(language)
+
+        cache_dir = Path(os.path.expanduser("~/.cache/phono-sim"))
+        cache_dir.mkdir(exist_ok=True)
+        py_version = f"py{sys.version_info.major}.{sys.version_info.minor}"
+        cache_file = cache_dir / f"{language}_{py_version}.pkl"
+
+        if use_cache and cache_file.exists():
+            with open(cache_file, "rb") as f:
+                self._pdict = pickle.load(f)
+        else:
+            self._pdict: Dict[str, str] = load_dictionary.load_dictionary_tsv(language)
+            if use_cache:
+                with open(cache_file, "wb") as f:
+                    pickle.dump(self._pdict, f)
 
         self._model = T5ForConditionalGeneration.from_pretrained(
             self.DEFAULT_T5_G2P_MODEL_NAME
@@ -180,6 +201,7 @@ class CharsiuGraphemeToPhonemeGenerator:
         raise ValueError(error_message)
 
     @lru_cache(maxsize=2048)
+    @lru_cache(maxsize=2048)
     def get_phones_for_word(
         self,
         word: str,
@@ -208,6 +230,7 @@ class CharsiuGraphemeToPhonemeGenerator:
         Union[str, Tuple[str]]
             The phone representation of the word. If found in the
             dictionary, a list of phones is returned. Otherwise, a
+
             single string of phones is returned.
         """
 

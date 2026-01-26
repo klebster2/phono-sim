@@ -1,7 +1,7 @@
 import torch
 from bitarray import bitarray
 
-from phone_similarity.bit_array_generator import BitArrayGenerator
+from phone_similarity.bit_array_specification import BitArraySpecification
 from phone_similarity.clean_phones import clean_phones
 from phone_similarity.g2p.charsiu.generator import CharsiuGraphemeToPhonemeGenerator
 from phone_similarity.language.en_gb import FEATURES, PHONEME_FEATURES, VOWELS_SET
@@ -15,7 +15,7 @@ CONSONANTS_SET = set(filter(lambda phone: phone not in VOWELS_SET, PHONEME_FEATU
 WORDS_A = ["euthanasia"]
 WORDS_B = ["Youth", "in", "asia"]
 
-BITARRAY_GENERATOR = BitArrayGenerator(
+BITARRAY_SPECIFICATION = BitArraySpecification(
     vowels=VOWELS_SET,
     consonants=CONSONANTS_SET,
     features_per_phoneme=PHONEME_FEATURES,
@@ -42,7 +42,9 @@ def test_charsiu_g2p_many_hypotheses():
     phones_for_words, _ = g2p.generate(words=tuple(WORDS_A), **generation_args)
 
     assert len(phones_for_words[0]) == 5
-    assert BITARRAY_GENERATOR.ipa_to_bitarray(phones_for_words[0][0], 6) == bitarray(
+    assert BITARRAY_SPECIFICATION.ipa_to_bitarray(
+        phones_for_words[0][0], 6
+    ) == bitarray(
         "0000100000010101000001000100000010000100011101000101100"
         "0000000010000010000100000010001100010001100000000000000"
         "0000000000000000000000000000000000000000000000000000000"
@@ -59,12 +61,12 @@ def test_charsiu_g2p_many_hypotheses():
         )
 
     phones_for_words_product = phones_product(
-        phones_for_words, tokenizer=BITARRAY_GENERATOR.ipa_tokenizer
+        phones_for_words, tokenizer=BITARRAY_SPECIFICATION.ipa_tokenizer
     )
 
     for phones in phones_for_words_product:
         assert isinstance(phones, str)
-        _syllables.append(BITARRAY_GENERATOR.ipa_to_syllable(phones))
+        _syllables.append(BITARRAY_SPECIFICATION.ipa_to_syllable(phones))
 
     if torch.cuda.is_available():
         assert len(_syllables) == 12
@@ -88,7 +90,7 @@ def test_charsiu_g2p_one_hypothesis():
         phones_for_words = [clean_phones(p) for p in phones_for_words]
         for phones in phones_for_words:
             assert isinstance(phones, str)
-            _syllables.append(BITARRAY_GENERATOR.ipa_to_syllable(phones))
+            _syllables.append(BITARRAY_SPECIFICATION.ipa_to_syllable(phones))
 
     assert _syllables[0] == [
         {"nucleus": bitarray("1000100011"), "onset": bitarray("00100000010001")},
@@ -117,7 +119,9 @@ def test_charsiu_g2p_similarity():
     phones_for_words, _ = g2p.generate(words=tuple(WORDS_A), **generation_args)
 
     assert len(phones_for_words[0]) == 5
-    assert BITARRAY_GENERATOR.ipa_to_bitarray(phones_for_words[0][0], 6) == bitarray(
+    assert BITARRAY_SPECIFICATION.ipa_to_bitarray(
+        phones_for_words[0][0], 6
+    ) == bitarray(
         "0000100000010101000001000100000010000100011101000101100"
         "0000000010000010000100000010001100010001100000000000000"
         "0000000000000000000000000000000000000000000000000000000"
@@ -134,11 +138,11 @@ def test_charsiu_g2p_similarity():
         )
 
     phones_for_words_product = phones_product(
-        phones_for_words, tokenizer=BITARRAY_GENERATOR.ipa_tokenizer
+        phones_for_words, tokenizer=BITARRAY_SPECIFICATION.ipa_tokenizer
     )
 
     for phones in phones_for_words_product:
         assert isinstance(phones, str)
-        _syllables.append(BITARRAY_GENERATOR.ipa_to_syllable(phones))
+        _syllables.append(BITARRAY_SPECIFICATION.ipa_to_syllable(phones))
 
     assert len(_syllables) == 12
