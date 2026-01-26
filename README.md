@@ -1,10 +1,7 @@
 # phone-bitarray
 
-A library for efficient phonological representations of language.
+An efficient library for phonological (feature) representations of language.
 
 # Table of contents
 
-- Resources
-  - Models
-- Requirements
-- Example use cases
+TBD
