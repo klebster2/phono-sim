@@ -9,7 +9,7 @@ import pytest
 from phone_similarity.g2p.charsiu.generator import CharsiuGraphemeToPhonemeGenerator
 
 
-@pytest.skip()
+@pytest.mark.skip()
 def test_caching_performance():
     language = "fra"
     py_version = f"py{sys.version_info.major}.{sys.version_info.minor}"
